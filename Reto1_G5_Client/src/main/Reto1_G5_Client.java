@@ -16,13 +16,13 @@ import javafx.stage.Stage;
  * @author poker
  */
 public class Reto1_G5_Client extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/view/SignIn.fxml"));
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
@@ -33,5 +33,5 @@ public class Reto1_G5_Client extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

@@ -5,6 +5,7 @@
  */
 package main;
 
+import controller.SignInController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,12 +20,12 @@ public class Reto1_G5_Client extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/SignIn.fxml"));
 
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+        Parent root = loader.load();
+        SignInController signIn = loader.getController();
+        signIn.setStage(stage);
+        signIn.initStage(root);
     }
 
     /**

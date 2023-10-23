@@ -1,4 +1,4 @@
-package controller;
+package grupo5.reto1.controller;
 
 /**
  *

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package grupo5.reto1.main;
 
+
+import grupo5.reto1.controller.SignUpController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,12 +21,14 @@ public class Reto1_G5_Client extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/SignIn.fxml"));
-
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
+        
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
+        Parent root = (Parent) loader.load();
+       
+        SignUpController controller = ((SignUpController) loader.getController());
+        controller.setStage(stage);
+        controller.initStage(root);
     }
 
     /**
@@ -32,6 +36,6 @@ public class Reto1_G5_Client extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
 
+}
 }

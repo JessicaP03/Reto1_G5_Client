@@ -1,4 +1,4 @@
-package model;
+package grupo5.reto1.model;
 
 /**
  *

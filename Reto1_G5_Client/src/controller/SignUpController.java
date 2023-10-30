@@ -2,7 +2,6 @@ package controller;
 
 import exceptions.WrongPasswordException;
 import model.Signable;
-import model.User;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -24,7 +23,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -47,32 +48,28 @@ public class SignUpController {
     @FXML
     private ImageView ivNombre, ivEmail, ivDireccion, ivPasswd, ivPasswd2, ivTelefono, ivCodPostal, ivShow1, ivShow2, ivPane;
 
-    @FXML
     protected static final Logger LOGGER = Logger.getLogger("SignUpController");
 
-    @FXML
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,255}$";
 
-    @FXML
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
-    @FXML
     private static final String EMAIL_REGEX = "^(?=.{1,255}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    @FXML
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     //Declaramos la interfaz
     private Signable interf;
 
     private Stage stage;
+    @FXML
+    private AnchorPane idPane;
 
     /**
      * Method to initialize the window
      *
      * @param root the root of the window
      */
-    @FXML
     public void initStage(Parent root) {
         LOGGER.info("Initializing Sign Up stage.");
         Scene scene = new Scene(root);
@@ -200,7 +197,6 @@ public class SignUpController {
         }
     }
 
-    @FXML
     private void handleRegistroButtonAction(ActionEvent event) {
         try {
 
@@ -308,7 +304,6 @@ public class SignUpController {
     //preguntando si está seguro de que quiere cerrar la aplicación.
     //Si se pulsa que sí, se cerrará la aplicación; ejecutándose la función platform.exit, acabando así la ejecución del programa.
     //En el caso de que no sea así, saldrá del método del botón (Volver).
-    @FXML
     private void handleVolverButtonAction(ActionEvent event) {
         try {
 

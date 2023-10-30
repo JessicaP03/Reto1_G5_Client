@@ -1,7 +1,7 @@
 package controller;
 
 import static controller.SignUpController.LOGGER;
-import model.User;
+
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  * This is de "Message" window.

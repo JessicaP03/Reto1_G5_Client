@@ -2,25 +2,19 @@ package test;
 
 import controller.SignInController;
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import main.Reto1_G5_Client;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
-import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
+import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 
 /**
  *
@@ -36,6 +30,11 @@ public class SingInTest extends ApplicationTest {
         FxToolkit.setupApplication(Reto1_G5_Client.class);
     }
      */
+    /**
+     * Cada vez que se pruebe un test se crea y muesta una ventana de SignIn.
+     *
+     * @param stage el stage.
+     */
     @Override
     public void start(Stage stage) {
         try {
@@ -49,11 +48,17 @@ public class SingInTest extends ApplicationTest {
         }
     }
 
+    /**
+     * Cuando se termine el metodo no se hace nada.
+     */
     @Override
     public void stop() {
-        // System.exit(0);
+
     }
 
+    /**
+     * Comprueba si los campos son visibles y si estan habilitados.
+     */
     @Test
     public void test1_initStage() {
         verifyThat("#txtEmail", isVisible());
@@ -62,7 +67,7 @@ public class SingInTest extends ApplicationTest {
         verifyThat("#txtPasswd", isVisible());
         verifyThat("#txtPasswd", isEnabled());
 
-        // verifyThat("#txtShowPasswd", isVisible());
+        verifyThat("#txtShowPasswd", isInvisible());
         verifyThat("#txtShowPasswd", isEnabled());
 
         verifyThat("#btnIniciarSesion", isVisible());
@@ -72,25 +77,42 @@ public class SingInTest extends ApplicationTest {
         verifyThat("#tbtnPasswd", isEnabled());
     }
 
+    /**
+     * Comprueba si se puede abrir la ventana de SignUp.
+     */
     @Test
     public void test2_OpenSignUp() {
         clickOn("#hlSignUp");
+        verifyThat("#fondoSignUp", isVisible());
     }
 
+    /**
+     *
+     * Verifica si se produce un error cuando no se introduce una contraseña.
+     */
     @Test
     public void test3_EmailNotFilled() {
         clickOn("#txtEmail");
         write("email@gmail.com");
-
+        clickOn("#btnIniciarSesion");
+        verifyThat("Por favor rellene ambos campos", isVisible());
     }
 
+    /**
+     * Verifica si se produce un error cuando no se introduce una contraseña.
+     */
     @Test
     public void test4_PasswdNotFilled() {
         clickOn("#txtPasswd");
         write("Abcd*1234");
         clickOn("#btnIniciarSesion");
+        verifyThat("Por favor rellene ambos campos", isVisible());
     }
 
+    /**
+     *
+     * Verifica si se produce un error cuando se introduce un email inválido.
+     */
     @Test
     public void test5_InvalidEmailFormat() {
         clickOn("#txtEmail");
@@ -98,8 +120,13 @@ public class SingInTest extends ApplicationTest {
         clickOn("#txtPasswd");
         write("contraseña");
         clickOn("#btnIniciarSesion");
+        verifyThat("El formato del email no es correcto", isVisible());
     }
 
+    /**
+     * Verifica si se produce un error cuando se introduce una contraseña
+     * inválida.
+     */
     @Test
     public void test6_InvalidPasswFormat() {
         clickOn("#txtEmail");
@@ -107,8 +134,13 @@ public class SingInTest extends ApplicationTest {
         clickOn("#txtPasswd");
         write("abcd");
         clickOn("#btnIniciarSesion");
+        verifyThat("La contraseña debe contener:\nUna mayuscula, una minuscula, y un numero", isVisible());
     }
 
+    /**
+     * Verifica si se produce un error cuando la email y la contraseña no
+     * coinciden.
+     */
     @Test
     public void test7_InvalidCredentials() {
         clickOn("#txtEmail");
@@ -116,8 +148,13 @@ public class SingInTest extends ApplicationTest {
         clickOn("#txtPasswd");
         write("Abcd*1234");
         clickOn("#btnIniciarSesion");
+        verifyThat("CREDENTIAL ERROR EXCEPTION", isVisible());
     }
 
+    /**
+     * Verifica si se abre la ventana de Message cuando se introducen unos datos
+     * validos.
+     */
     @Test
     public void test8_ValidCredentials() {
         clickOn("#txtEmail");
@@ -125,6 +162,7 @@ public class SingInTest extends ApplicationTest {
         clickOn("#txtPasswd");
         write("Abcd*1234");
         clickOn("#btnIniciarSesion");
+        verifyThat("#fondoMessage", isVisible());
     }
 
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.LoginErrorException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -23,6 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.Signable;
+import model.User;
 
 /**
  * Esta clase es el controlador encargado de que la ventna SignIn funcione.
@@ -122,7 +125,6 @@ public class SignInController {
         btnIniciarSesion.setDefaultButton(true);
         thisStage.setOnCloseRequest(this::handleExitApplication);
         thisStage.show();
-        System.out.println("Se ha abierto el Sign In");
     }
 
     /**
@@ -212,9 +214,20 @@ public class SignInController {
                 throw new Exception("La contraseña debe contener:\nUna mayuscula, una minuscula, y un numero");
             }
 
-            //Una vez que los campos de email y contraseña son válidos. Se llama al método getExecuteSignIn de la interfaz (Signable) pasándole un objeto (User), con los valores del nombre de usuario y la password:
-            //Si se produce algún error saldrá una ventana informativa con la excepción LoginErrorException que se encontrará en las excepciones creadas en la librería y limpiará esos campos y se cambiará el color del fondo a rojo.
+            //Una vez que los campos de email y contraseña son válidos. Se llama al método getExecuteSignIn de la interfaz (Signable) pasándole un objeto (User)
+            //con los valores del nombre de usuario y la password:
+            //Si se produce algún error saldrá una ventana informativa con la excepción LoginErrorException que se encontrará en las excepciones creadas en la
+            //librería y limpiará esos campos y se cambiará el color del fondo a rojo.
             //Si no se produce error, se cambiara el fondo a color verde y le pasamos el objeto User a la siguiente ventana (Message) y cerramos la actual.
+            User user = new User();
+            user.setEmail(txtEmail.getText());
+            user.setPasswd(txtPasswd.getText());
+
+        } catch (LoginErrorException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setHeaderText(null);

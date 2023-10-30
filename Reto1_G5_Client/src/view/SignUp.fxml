@@ -60,11 +60,11 @@
             <Image url="@../resources/img/contrasena.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="ivPane" fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="ivPane" fitHeight="620.0" fitWidth="500.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../resources/img/Sign%20Up.png" />
          </image></ImageView>
-      <ToggleButton layoutX="946.0" layoutY="250.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" styleClass="button">
+      <ToggleButton fx:id="tbtnPasswd1" layoutX="946.0" layoutY="250.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" styleClass="button">
          <graphic>
             <ImageView fx:id="ivShow1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                <image>

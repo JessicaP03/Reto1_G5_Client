@@ -75,8 +75,8 @@ public class SignInController {
         thisStage = new Stage();
 
         //La ventana, es una ventana modal.
-        thisStage.initModality(Modality.APPLICATION_MODAL);
         thisStage.setScene(scene);
+        thisStage.initModality(Modality.APPLICATION_MODAL);
 
         //La ventana no es redimensionable.
         thisStage.setResizable(false);
@@ -122,6 +122,7 @@ public class SignInController {
         btnIniciarSesion.setDefaultButton(true);
         thisStage.setOnCloseRequest(this::handleExitApplication);
         thisStage.show();
+        System.out.println("Se ha abierto el Sign In");
     }
 
     /**
@@ -140,6 +141,7 @@ public class SignInController {
             SignUpController signUp = loader.getController();
             signUp.setStage(thisStage);
             signUp.initStage(root);
+            thisStage.close();
 
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);

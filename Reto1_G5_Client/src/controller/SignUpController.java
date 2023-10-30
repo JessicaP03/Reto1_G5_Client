@@ -78,7 +78,7 @@ public class SignUpController {
         Scene scene = new Scene(root);
 
         //La ventana no es redimensionable.
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setResizable(false);
 
         //La ventana, es una ventana modal.
@@ -86,7 +86,7 @@ public class SignUpController {
         stage.setScene(scene);
 
         //El título de la ventana es “Sign Up”.
-        stage.setTitle("SIGN UP");
+        stage.setTitle("Sign Up");
 
         //El foco de la ventana estará en el TextField del nombre completo (txtNombre).
         txtNombre.requestFocus();
@@ -154,8 +154,8 @@ public class SignUpController {
         btnVolver.setOnAction(this::handleVolverButtonAction);
 
         //El botón por defecto será el de registrar(btnRegistro).
-//        btnRegistro.setMnemonicParsing(true);
-//        btnRegistro.setText("_Aceptar");
+        //btnRegistro.setMnemonicParsing(true);
+        //btnRegistro.setText("_Aceptar");
         //El botón de escape sera el botón de volver(btnVolver).
         //Mostramos la ventana
         stage.show();
@@ -282,8 +282,8 @@ public class SignUpController {
                 user.setAddres(txtDireccion.getText());
                 user.setPasswd(txtPasswd2.getText());
                 user.setPasswd2(txtShowPasswd2.getText());
-                user.setPhone(txtTelefono.getLength());
-                user.setCodigoPostal(txtCodPostal.getLength());
+                user.setPhone(Integer.parseInt(txtTelefono.getText()));
+                user.setCodigoPostal(Integer.parseInt(txtCodPostal.getText()));
                 interf.getExecuteSignUp(user);
 
                 throw new Exception("USUARIO REGISTRADO");
@@ -315,21 +315,25 @@ public class SignUpController {
             //El botón está habilitado
             btnVolver.setDisable(false);
             //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
-            Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
-            ventanita.setHeaderText(null);
-            ventanita.setTitle("Advertencia");
-            ventanita.setContentText("¿Deseas Salir?");
+
+            event.consume();
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que deseas volver?");
+            alert.setHeaderText(null);
+
             //Con este Optional<ButtonType> creamos botones de Ok y cancelar
-            Optional<ButtonType> action = ventanita.showAndWait();
+            Optional<ButtonType> action = alert.showAndWait();
             //Si le da a OK el programa dejará de existir, se cierra por completo
             if (action.get() == ButtonType.OK) {
-                System.exit(0);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+                Parent root = loader.load();
+                SignInController signIn = loader.getController();
+                signIn.setStage(stage);
+                signIn.initStage(root);
+                stage.close();
 
-            } else {
-                //Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
-                ventanita.close();
             }
+
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
         }

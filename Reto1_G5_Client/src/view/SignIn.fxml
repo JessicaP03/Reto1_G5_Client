@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="fondo" stylesheets="@../resources/style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignInController">
    <children>
-      <ImageView fx:id="ivPanel" fitHeight="600.0" fitWidth="500.0" pickOnBounds="true">
+      <ImageView fx:id="ivPanel" fitHeight="620.0" fitWidth="500.0" pickOnBounds="true">
          <image>
             <Image url="@../resources/img/Sign%20In.png" />
          </image>
@@ -30,7 +30,7 @@
       </ImageView>
       <PasswordField fx:id="txtPasswd" layoutX="638.0" layoutY="297.0" prefHeight="25.0" prefWidth="285.0" promptText="Introduce la contraseña" styleClass="textField" />
       <Label fx:id="lblCuenta" layoutX="602.0" layoutY="373.0" prefHeight="18.0" prefWidth="341.0" text="Si no tienes una cuenta                    para registrarte" wrapText="true" />
-      <Hyperlink fx:id="hlSignUp" layoutX="756.0" layoutY="369.0" onAction="#handleSignUpHyperlinkAction" text="pulsa aqui" />
+      <Hyperlink fx:id="hlSignUp" layoutX="727.0" layoutY="371.0" onAction="#handleSignUpHyperlinkAction" text="pulsa aqui" />
       <ToggleButton fx:id="tbtnPasswd" layoutX="931.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleMostrarContraseniaToggleButtonAction" prefHeight="16.0" prefWidth="16.0">
          <graphic>
             <ImageView fx:id="ivTbntPasswd" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">

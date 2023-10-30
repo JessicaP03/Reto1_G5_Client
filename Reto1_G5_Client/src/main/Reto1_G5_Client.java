@@ -31,6 +31,6 @@ public class Reto1_G5_Client extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
 
+}
 }

@@ -1,11 +1,9 @@
 package model;
 
-import grupo5.reto1.exceptions.CredentialErrorException;
-import grupo5.reto1.exceptions.ServerErrorException;
-import grupo5.reto1.exceptions.UserAlreadyExistsException;
-import grupo5.reto1.exceptions.UserNotFoundException;
-import grupo5.reto1.model.Signable;
-import grupo5.reto1.model.User;
+import exceptions.CredentialErrorException;
+import exceptions.ServerErrorException;
+import exceptions.UserAlreadyExistsException;
+import exceptions.UserNotFoundException;
 
 /**
  *

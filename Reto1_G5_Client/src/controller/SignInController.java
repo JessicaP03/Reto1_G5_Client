@@ -1,4 +1,4 @@
-package grupo5.reto1.controller;
+package controller;
 
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;

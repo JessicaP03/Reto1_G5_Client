@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package grupo5.reto1.main;
+package main;
 
 
-import grupo5.reto1.controller.SignUpController;
+import controller.SignUpController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +29,8 @@ public class Reto1_G5_Client extends Application {
         SignUpController controller = ((SignUpController) loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
+        
+        
     }
 
     /**

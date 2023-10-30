@@ -1,4 +1,6 @@
-package grupo5.reto1.model;
+package model;
+
+import grupo5.reto1.model.Signable;
 
 /**
  * Instantiate the interface methods that run on 'SignableSocket' to the Controller

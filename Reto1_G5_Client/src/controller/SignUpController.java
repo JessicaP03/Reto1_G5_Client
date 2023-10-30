@@ -1,9 +1,9 @@
 
 
-package grupo5.reto1.controller;
+package controller;
 
 
-import grupo5.reto1.exceptions.WrongPasswordException;
+import exceptions.WrongPasswordException;
 import grupo5.reto1.model.Signable;
 import grupo5.reto1.model.User;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -307,13 +308,27 @@ public class SignUpController {
                     throw new Exception("TIENE QUE SER UN NUMERO");
                 }
                 throw new Exception("EL CODIGO POSTAL TIENE QUE TENER 5 NUMEROS");
-            }
+            
     
     //En caso de que todos los datos introducidos sean válidos y cumplan los requisitos mencionados anteriormente, se llama al método getExecuteSignUp de la interfaz (Sign) pasándole un objeto (User) con los valores.
     //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
     
     //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería. 
-   
+     } else {
+
+                User user = new User();
+                user.setName(txtNombre.getText());
+                user.setEmail(txtEmail.getText());
+                user.setAddres(txtDireccion.getText());
+                user.setPasswd(txtPasswd2.getText());
+                user.setPasswd2(txtShowPasswd2.getText());
+                user.setPhone(txtTelefono.getLength());
+                user.setCodigoPostal(txtCodPostal.getLength());
+                interf.getExecuteSignUp(user);
+                
+                throw new Exception("USUARIO REGISTRADO");
+
+            }
         
         
         
@@ -324,7 +339,7 @@ public class SignUpController {
         
     
     } 
-
+  
     }
    
     /**
@@ -353,7 +368,9 @@ public class SignUpController {
             Optional<ButtonType> action = ventanita.showAndWait();
             //Si le da a OK el programa dejará de existir, se cierra por completo
             if (action.get() == ButtonType.OK) {
-                Platform.exit();
+                System.exit(0);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+                
             } else {
                 //Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
                 ventanita.close();

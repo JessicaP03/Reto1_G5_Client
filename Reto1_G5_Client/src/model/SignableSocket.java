@@ -1,10 +1,14 @@
-package grupo5.reto1.model;
+package model;
 
 import grupo5.reto1.exceptions.CredentialErrorException;
 import grupo5.reto1.exceptions.ServerErrorException;
 import grupo5.reto1.exceptions.UserAlreadyExistsException;
 import grupo5.reto1.exceptions.UserNotFoundException;
-import grupo5.reto1.exceptions.WrongPasswordException;
+import exceptions.WrongPasswordException;
+import grupo5.reto1.model.Encapsulator;
+import grupo5.reto1.model.MessageType;
+import grupo5.reto1.model.Signable;
+import grupo5.reto1.model.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

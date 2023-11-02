@@ -1,7 +1,6 @@
 package controller;
 
 import exceptions.CredentialErrorException;
-import exceptions.LoginErrorException;
 import exceptions.ServerErrorException;
 import java.io.IOException;
 import java.util.Optional;
@@ -28,8 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import model.Signable;
 import model.SignableSocket;
 import model.User;
 

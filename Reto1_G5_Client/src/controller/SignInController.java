@@ -1,12 +1,15 @@
 package controller;
 
+import exceptions.CredentialErrorException;
 import exceptions.LoginErrorException;
+import exceptions.ServerErrorException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +24,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Signable;
+import model.SignableSocket;
 import model.User;
 
 /**
@@ -58,6 +64,8 @@ public class SignInController {
     private Hyperlink hlSignUp;
 
     private Stage thisStage;
+
+    private SignableSocket sSocket;
 
     /**
      * Guarda el Stage que se ha creado en la clasee main.
@@ -124,6 +132,13 @@ public class SignInController {
         //El botón por defecto sera el de iniciar sesión(btnIniciarSesion).
         btnIniciarSesion.setDefaultButton(true);
         thisStage.setOnCloseRequest(this::handleExitApplication);
+
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                handleExitApplication(event);
+            }
+        });
+
         thisStage.show();
     }
 
@@ -223,7 +238,14 @@ public class SignInController {
             user.setEmail(txtEmail.getText());
             user.setPasswd(txtPasswd.getText());
 
-        } catch (LoginErrorException e) {
+            sSocket.getExecuteSignIn(user);
+
+        } catch (CredentialErrorException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+        } catch (ServerErrorException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.setHeaderText(null);
             alert.showAndWait();
@@ -242,7 +264,8 @@ public class SignInController {
      * @param event
      */
     @FXML
-    private void handleExitApplication(WindowEvent event) {
+    private void handleExitApplication(Event event
+    ) {
         try {
             event.consume();
             //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir

@@ -55,8 +55,6 @@ public class SignableSocket implements Signable {
         ObjectInputStream ois = null;
 
         try {
-            //Enviamos el objeto encapsulado al servidor
-
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
 
@@ -86,9 +84,9 @@ public class SignableSocket implements Signable {
                 case OK_RESPONSE:
                     return user;
                 case USER_ALREADY_EXISTS_RESPONSE:
-                    throw new UserAlreadyExistsException("The user already exists");
+                    throw new UserAlreadyExistsException("El usuario ya existe.");
                 case ERROR_RESPONSE:
-                    throw new ServerErrorException("An error in the server has ocurred");
+                    throw new ServerErrorException("Ha occurrido un error en el servidor.");
             }
 
         } catch (IOException ex) {
@@ -154,11 +152,9 @@ public class SignableSocket implements Signable {
                 case OK_RESPONSE:
                     return user;
                 case USER_NOT_FOUND_RESPONSE:
-                    throw new CredentialErrorException("The user was not found");
+                    throw new CredentialErrorException("Error en las credenciales. Comprueba que introduce correctamente los datos.");
                 case ERROR_RESPONSE:
-                    throw new ServerErrorException("An error in the server has ocurred");
-                case PASSWORD_ERROR_RESPONSE:
-                    throw new WrongPasswordException("The password is incorrect");
+                    throw new ServerErrorException("Ha ocurrido un error en el servidor");
             }
 
         } catch (Exception ex) {

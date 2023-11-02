@@ -5,11 +5,9 @@ import model.Signable;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,11 +18,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.SignableSocket;
 import model.User;
 
 /**
@@ -59,7 +57,7 @@ public class SignUpController {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     //Declaramos la interfaz
-    private Signable interf;
+    private SignableSocket interf;
 
     private Stage stage;
     @FXML

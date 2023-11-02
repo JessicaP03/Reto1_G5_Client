@@ -164,5 +164,4 @@ public class SingInTest extends ApplicationTest {
         clickOn("#btnIniciarSesion");
         verifyThat("#fondoMessage", isVisible());
     }
-
 }

@@ -6,8 +6,8 @@
 package exceptions;
 
 /**
- *
- * @author poker
+ * Excepción de contraseña incorrecta.
+ * @author Jessica
  */
 public class WrongPasswordException extends Exception {
 

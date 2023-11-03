@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package main;
 
 import controller.SignInController;
@@ -12,11 +8,17 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 /**
- *
- * @author poker
+ * Clase principal para inicializar la aplicación.
+ * @author Jessica, Jason e Ian.
  */
 public class Reto1_G5_Client extends Application {
 
+    
+    /**
+     *  Este metodo inicializa la aplicación abriendo la ventana de SIGN IN
+     * @param stage es el contenedor principal de la ventana.
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));

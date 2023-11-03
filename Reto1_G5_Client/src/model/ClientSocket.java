@@ -14,14 +14,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * SignableSocket es el socket de cliente. Dependiendo del método enviado por el
+ * ClientSocket es el socket de cliente. Dependiendo del método enviado por el
  * controlador, ejecuta 'getExecuteSignIn' o 'getExecuteSignUp'.
  *
  * @author Jessica.
  */
-public class SignableSocket implements Signable {
+public class ClientSocket implements Signable {
 
-    final private Logger LOGGER = Logger.getLogger(SignableSocket.class.getName());
+    final private Logger LOGGER = Logger.getLogger(ClientSocket.class.getName());
 
     private static final ResourceBundle RETO1 = ResourceBundle.getBundle("model.Config");
     private static final int PUERTO = Integer.parseInt(RETO1.getString("PORT"));
@@ -91,9 +91,9 @@ public class SignableSocket implements Signable {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(SignableSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SignableSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
 
@@ -104,13 +104,13 @@ public class SignableSocket implements Signable {
      * IN' y comprueba que el usuario esté en la base de datos
      *
      * @param user de usuario de tipo Usuario
-     * @return user, de usuarioç
+     * @return user, de usuario
      *
      * @throws ServerErrorException esta excepción se lanza cuando hay un error
      * en el servidor
      * @throws CredentialErrorException esta excepción se lanza cuando las
      * credenciales en el login son incorrectas
-     * @throws
+     * 
      */
     @Override
     public User getExecuteSignIn(User user) throws ServerErrorException, CredentialErrorException {
@@ -159,7 +159,7 @@ public class SignableSocket implements Signable {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(SignableSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
 

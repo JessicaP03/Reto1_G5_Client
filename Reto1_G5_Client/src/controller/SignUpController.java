@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,14 +21,17 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 
 import javafx.scene.Parent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.SignableSocket;
+import model.ClientSocket;
 import model.User;
 
 /**
+ * Este es el controlador de la ventana de Sign Up.
  *
- * @author Jessica and Ian This is the controller of the SignUp stage.
+ * @author Jessica and Ian
  */
 public class SignUpController {
 
@@ -57,16 +61,15 @@ public class SignUpController {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     //Declaramos la interfaz
-    private SignableSocket interf;
+    private ClientSocket interf;
 
     private Stage stage;
     @FXML
     private AnchorPane idPane;
 
     /**
-     * Method to initialize the window
-     *
-     * @param root the root of the window
+     * Metodo para inicializar la ventana
+     * @param root es el nodo raiz de la ventana
      */
     public void initStage(Parent root) {
         LOGGER.info("Initializing Sign Up stage.");
@@ -149,19 +152,29 @@ public class SignUpController {
         btnVolver.setOnAction(this::handleVolverButtonAction);
 
         //El botón por defecto será el de registrar(btnRegistro).
-        //btnRegistro.setMnemonicParsing(true);
-        //btnRegistro.setText("_Aceptar");
+        btnRegistro.setDefaultButton(true);
         //El botón de escape sera el botón de volver(btnVolver).
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                handleVolverButtonAction(event);
+
+            }
+        });
         //Mostramos la ventana
         stage.show();
 
     }
 
-    //Al seleccionar el botón, se hará visible el TextField (txtShowPasswd) con el texto escrito en el PasswordField(txtPasswd) y se hará invisible el PasswordField(txtPasswd).
-    //También se cambiará la imagen (ivShow1) del ToggleButton(tbtnPasswd1).
-    //Al dejar de seleccionar el botón, se hará invisible el TextField (txtShowPasswd) y se hará visible el PasswordField(txtPasswd).
-    //También se cambiará la imagen (ivShow1) del ToggleButton(tbtnPasswd1) .
+    /**
+     *  Metodo para mostrar la contraseña a claro al pulsar la imagen de visualizar.
+     * @param event evento que sucede,
+     */
     protected void mostrarContrasena(ActionEvent event) {
+
+        //Al seleccionar el botón, se hará visible el TextField (txtShowPasswd) con el texto escrito en el PasswordField(txtPasswd) y se hará invisible el PasswordField(txtPasswd).
+        //También se cambiará la imagen (ivShow1) del ToggleButton(tbtnPasswd1).
+        //Al dejar de seleccionar el botón, se hará invisible el TextField (txtShowPasswd) y se hará visible el PasswordField(txtPasswd).
+        //También se cambiará la imagen (ivShow1) del ToggleButton(tbtnPasswd1) .
         if (tbtnPasswd1.isSelected()) {
             txtShowPasswd.setText(txtPasswd.getText());
             txtPasswd.setVisible(false);
@@ -176,11 +189,16 @@ public class SignUpController {
         }
     }
 
-    //Con el segundo botón pasará lo mismo, al seleccionar el botón, se hará visible el TextField (txtShowPasswd2) con el texto escrito en el PasswordField(txtPasswd2)
-    //y se hará invisible el PasswordField(txtPasswd2). También se cambiará la imagen (ivShow2) del ToggleButton(tbtnPasswd2).
-    //Al dejar de seleccionar el botón, se hará invisible el TextField (txtShowPasswd2) y se hará visible el PasswordField(txtPasswd2).
-    //También se cambiará la imagen (ivShow2) del ToggleButton(tbtnPasswd2) .
+    /**
+     *  Metodo para mostrar la contraseña (campo de repetir la contraseña) a claro al pulsar la imagen de visualizar.
+     * @param event evento que sucede,
+     */
     protected void mostrarContrasena2(ActionEvent event) {
+        //Con el segundo botón pasará lo mismo, al seleccionar el botón, se hará visible el TextField (txtShowPasswd2) con el texto escrito en el PasswordField(txtPasswd2)
+        //y se hará invisible el PasswordField(txtPasswd2). También se cambiará la imagen (ivShow2) del ToggleButton(tbtnPasswd2).
+        //Al dejar de seleccionar el botón, se hará invisible el TextField (txtShowPasswd2) y se hará visible el PasswordField(txtPasswd2).
+        //También se cambiará la imagen (ivShow2) del ToggleButton(tbtnPasswd2) .
+
         if (tbtnPasswd2.isSelected()) {
             txtShowPasswd2.setText(txtPasswd2.getText());
             txtPasswd2.setVisible(false);
@@ -195,6 +213,11 @@ public class SignUpController {
         }
     }
 
+    /**
+     * Metodo para el botón de registro. 
+     * Utilizado para introducir los datos en la base de datos despues de validar que cumplan los requisitos. 
+     * @param event  evento que sucede al pulsar el botón. 
+     */
     private void handleRegistroButtonAction(ActionEvent event) {
         try {
 
@@ -294,15 +317,16 @@ public class SignUpController {
     }
 
     /**
-     * Method to close the window
+     * Metodo para cerrar la ventana y volver a la de SIGN IN
      *
-     * @param event the the window
+     * @param event evento que sucede cuando se pulsa el botón.
      */
-    //Cuando el usuario pulse el botón de volver (btnVolver) saldrá un ventana con un mensaje de confirmación,
-    //preguntando si está seguro de que quiere cerrar la aplicación.
-    //Si se pulsa que sí, se cerrará la aplicación; ejecutándose la función platform.exit, acabando así la ejecución del programa.
-    //En el caso de que no sea así, saldrá del método del botón (Volver).
-    private void handleVolverButtonAction(ActionEvent event) {
+    private void handleVolverButtonAction(Event event) {
+        //Cuando el usuario pulse el botón de volver (btnVolver) saldrá un ventana con un mensaje de confirmación,
+        //preguntando si está seguro de que quiere cerrar la aplicación.
+        //Si se pulsa que sí, se cerrará la aplicación; ejecutándose la función platform.exit, acabando así la ejecución del programa.
+        //En el caso de que no sea así, saldrá del método del botón (Volver).  
+
         try {
 
             //El botón está habilitado

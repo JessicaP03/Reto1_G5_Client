@@ -6,8 +6,8 @@
 package exceptions;
 
 /**
- *
- * @author poker
+ * Excepción de error de inicio de sesión.
+ * @author Jessica
  */
 public class LoginErrorException extends Exception {
 

@@ -27,7 +27,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.SignableSocket;
+import model.ClientSocket;
 import model.User;
 
 /**
@@ -72,7 +72,7 @@ public class SignInController {
     }
 
     /**
-     * Instancia la ventana SignIn y pone define los parametros necesarios.
+     * Instancia la ventana SignIn y define los parametros necesarios.
      *
      * @param root es el Parent del FXML SignIn
      */
@@ -141,7 +141,7 @@ public class SignInController {
      * Cuando se pulse en el hyperlink de crear cuenta abre la ventana signUp y
      * cierra esta.
      *
-     * @param event
+     * @param event evento que sucede al pulsarse el botón.
      */
     @FXML
     protected void handleSignUpHyperlinkAction(ActionEvent event) {
@@ -165,7 +165,7 @@ public class SignInController {
      * cambia la imagen del boton y cuando se vuelve a puslar se oculta la
      * contraseña y la imagen se vuelve a cambiar.
      *
-     * @param event
+     * @param event evento que sucede al pulsarse el botón.
      */
     @FXML
     protected void handleMostrarContraseniaToggleButtonAction(ActionEvent event) {
@@ -193,7 +193,7 @@ public class SignInController {
      * Cuando se pulse el boton de iniciar sesion se validaran los campos y si
      * son correctos se iniciara sesion.
      *
-     * @param event
+     * @param event evento que sucede al pulsarse el botón.
      */
     @FXML
     protected void handleIniciarSesionButtonAction(ActionEvent event) {
@@ -233,7 +233,7 @@ public class SignInController {
             user.setEmail(txtEmail.getText());
             user.setPasswd(txtPasswd.getText());
 
-            user = new SignableSocket().getExecuteSignIn(user);
+            user = new ClientSocket().getExecuteSignIn(user);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Message.fxml"));
             Parent root = loader.load();
@@ -264,7 +264,7 @@ public class SignInController {
      * Cuando se pulse la X se preguntara si realmente se quiere cerrar la
      * aplicacion, si dice que si se cerrara la aplicacion.
      *
-     * @param event
+     * @param event evento que sucede al pulsarse el botón.
      */
     @FXML
     private void handleExitApplication(Event event

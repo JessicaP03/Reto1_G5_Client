@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import model.User;
 
 /**
- * This is de "Message" window.
+ * Este es el controlador para la ventana del mensaje
  *
  * @author Jessica.
  */
@@ -37,10 +37,9 @@ public class MessageController {
     private Stage thisStage;
 
     /**
-     * Method to start the window
-     *
-     * @param root the root of the window
-     * @param user object of User type
+     * Metodo para inicializar la ventana
+     * @param root nodoraíz de la ventana
+     * @param user objeto de tipo usuario
      */
     @FXML
     public void initStage(Parent root) {
@@ -66,8 +65,10 @@ public class MessageController {
     }
 
     /**
-     * "exit" button method with confirmation
+     * Metodo para cerrar la ventana con confirmación.
+     * @param event evento que sucede al pulsar el botón.
      */
+     
     @FXML
     private void handleExitButtonAction(ActionEvent event) {
         try {
@@ -98,7 +99,7 @@ public class MessageController {
 
     /**
      *
-     * @param user object of User type
+     * @param user objeto de tipo usuario
      */
     public void setUser(User user) {
         this.user = user;

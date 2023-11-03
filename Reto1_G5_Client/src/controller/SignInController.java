@@ -62,8 +62,6 @@ public class SignInController {
 
     private Stage thisStage;
 
-    private SignableSocket sSocket;
-
     /**
      * Guarda el Stage que se ha creado en la clasee main.
      *
@@ -235,7 +233,15 @@ public class SignInController {
             user.setEmail(txtEmail.getText());
             user.setPasswd(txtPasswd.getText());
 
-            sSocket.getExecuteSignIn(user);
+            user = new SignableSocket().getExecuteSignIn(user);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Message.fxml"));
+            Parent root = loader.load();
+            MessageController message = loader.getController();
+            message.setStage(thisStage);
+            message.initStage(root);
+            message.setUser(user);
+            thisStage.close();
 
         } catch (CredentialErrorException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);

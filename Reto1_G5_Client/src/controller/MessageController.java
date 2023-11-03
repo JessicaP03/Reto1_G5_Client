@@ -34,6 +34,8 @@ public class MessageController {
 
     private User user;
 
+    private Stage thisStage;
+
     /**
      * Method to start the window
      *
@@ -41,7 +43,7 @@ public class MessageController {
      * @param user object of User type
      */
     @FXML
-    public void initStage(Parent root, User user) {
+    public void initStage(Parent root) {
 
         LOGGER.info("Initializing Message stage.");
 
@@ -98,8 +100,12 @@ public class MessageController {
      *
      * @param user object of User type
      */
-    public void getUser(User user) {
+    public void setUser(User user) {
         this.user = user;
+    }
+
+    void setStage(Stage stage) {
+        this.thisStage = stage;
     }
 
 }

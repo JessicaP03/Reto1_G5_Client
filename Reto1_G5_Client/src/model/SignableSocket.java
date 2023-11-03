@@ -5,9 +5,6 @@ import exceptions.ServerErrorException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
 import exceptions.WrongPasswordException;
-import model.MessageType;
-import model.Signable;
-import model.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,9 +21,11 @@ import java.util.logging.Logger;
  */
 public class SignableSocket implements Signable {
 
-    private static final ResourceBundle RETO1 = ResourceBundle.getBundle("grupo5.reto1.model.Config");
+    final private Logger LOGGER = Logger.getLogger(SignableSocket.class.getName());
+
+    private static final ResourceBundle RETO1 = ResourceBundle.getBundle("model.Config");
     private static final int PUERTO = Integer.parseInt(RETO1.getString("PORT"));
-    private static final String HOST = ResourceBundle.getBundle("grupo5.reto1.model.Config").getString("Ip");
+    private static final String HOST = ResourceBundle.getBundle("model.Config").getString("Ip");
     private MessageType messType;
     private Message message = null;
 
@@ -55,8 +54,10 @@ public class SignableSocket implements Signable {
         ObjectInputStream ois = null;
 
         try {
+
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
+            LOGGER.info("Se ha conectado con el servidor");
 
             oos = new ObjectOutputStream(skCliente.getOutputStream());
             message = new Message();
@@ -132,7 +133,7 @@ public class SignableSocket implements Signable {
 
             //Encapsulamos los objetos user y el tipo de mensaje
             message.setUser(user);
-            message.setMessageType(MessageType.SIGNUP_REQUEST);
+            message.setMessageType(MessageType.SIGNIN_REQUEST);
 
             //Escribimos el objeto encapsulado
             oos.writeObject(message);

@@ -277,7 +277,7 @@ public class SignUpController {
                 user.setPasswd(txtPasswd2.getText());
                 user.setPasswd2(txtShowPasswd2.getText());
                 user.setPhone(Integer.parseInt(txtTelefono.getText()));
-                user.setCodigoPostal(Integer.parseInt(txtCodPostal.getText()));
+                user.setZip(Integer.parseInt(txtCodPostal.getText()));
                 interf.getExecuteSignUp(user);
 
                 throw new Exception("USUARIO REGISTRADO");

@@ -4,7 +4,6 @@ import exceptions.CredentialErrorException;
 import exceptions.ServerErrorException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
-import exceptions.WrongPasswordException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -36,15 +35,15 @@ public class ClientSocket implements Signable {
      * @param user de usuario de tipo Usuario
      *
      * @return user, de usuario
-     * @throws UserAlreadyExitsException esta excepción se lanza cuando el
-     * usuario no se encuentra en nuestra base de datos
      * @throws ServerErrorException esta excepción se lanza cuando hay un error
      * en el servidor
      * @throws UserNotFoundException esta excepción se lanza cuando no se
      * encuentra al usuario
+     * @throws UserAlreadyExistsException esta excepción se lanza cuando el
+     * usuario ya existe
      */
     @Override
-    public User getExecuteSignUp(User user) throws UserAlreadyExistsException, UserNotFoundException, ServerErrorException {
+    public User getExecuteSignUp(User user) throws UserNotFoundException, ServerErrorException, UserAlreadyExistsException {
 
         MessageType messType;
         //Escribir, enviar al servidor
@@ -57,6 +56,7 @@ public class ClientSocket implements Signable {
 
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
+            LOGGER.info("El soket se ha creado en " + HOST + ":" + PUERTO);
             LOGGER.info("Se ha conectado con el servidor");
 
             oos = new ObjectOutputStream(skCliente.getOutputStream());
@@ -81,6 +81,7 @@ public class ClientSocket implements Signable {
             skCliente.close();
 
             //Dependiendo del mensaje que va a recibir, lanza o escribe un mensaje nuevo
+            LOGGER.info("Respuesta del servidor: " + message.getMessageType());
             switch (message.getMessageType()) {
                 case OK_RESPONSE:
                     return user;
@@ -110,7 +111,7 @@ public class ClientSocket implements Signable {
      * en el servidor
      * @throws CredentialErrorException esta excepción se lanza cuando las
      * credenciales en el login son incorrectas
-     * 
+     *
      */
     @Override
     public User getExecuteSignIn(User user) throws ServerErrorException, CredentialErrorException {
@@ -127,6 +128,9 @@ public class ClientSocket implements Signable {
 
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
+
+            LOGGER.info("El soket se ha creado en " + HOST + ":" + PUERTO);
+            LOGGER.info("Se ha conectado con el servidor");
 
             oos = new ObjectOutputStream(skCliente.getOutputStream());
             message = new Message();
@@ -148,7 +152,9 @@ public class ClientSocket implements Signable {
             oos.close();
             ois.close();
             skCliente.close();
+
             //Dependiendo de el mensaje que reciva lanza o escribe un mensaje nuevo
+            LOGGER.info("Respuesta del servidor: " + message.getMessageType());
             switch (message.getMessageType()) {
                 case OK_RESPONSE:
                     return user;
@@ -162,7 +168,5 @@ public class ClientSocket implements Signable {
             Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
-
     }
-
 }

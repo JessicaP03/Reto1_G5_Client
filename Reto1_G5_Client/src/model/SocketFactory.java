@@ -14,9 +14,7 @@ public class SocketFactory {
      *
      * @return Signable, se devuelve un nuevo socket de cliente.
      */
-             
-            
-    public static Signable getSocket() {
+    public static ClientSocket getSocket() {
         return new ClientSocket();
     }
 

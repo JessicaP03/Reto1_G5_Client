@@ -298,7 +298,7 @@ public class SignUpController {
             User user = new User();
             user.setName(txtNombre.getText());
             user.setEmail(txtEmail.getText());
-            user.setAddres(txtDireccion.getText());
+            user.setAddress(txtDireccion.getText());
             user.setPasswd(txtPasswd2.getText());
             user.setPasswd2(txtShowPasswd2.getText());
             user.setPhone(Integer.parseInt(txtTelefono.getText()));

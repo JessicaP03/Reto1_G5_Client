@@ -5,6 +5,7 @@ import model.Signable;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -357,6 +358,28 @@ public class SignUpController {
             new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
         }
     }
+
+    @FXML
+    private void handleExitApplication(Event event) {
+        try {
+            event.consume();
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que deseas salir?");
+            alert.setHeaderText(null);
+
+            //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+            Optional<ButtonType> action = alert.showAndWait();
+            //Si le da a OK el programa dejará de existir, se cierra por completo
+            if (action.get() == ButtonType.OK) {
+                Platform.exit();
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
+        }
+    }
+
+    
 
     public void setStage(Stage stage) {
         this.stage = stage;

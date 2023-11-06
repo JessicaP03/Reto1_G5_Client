@@ -5,7 +5,9 @@ import static controller.SignUpController.LOGGER;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -97,6 +99,42 @@ public class MessageController {
         }
     }
 
+     private void handleVolverButtonAction(Event event) {
+        //Cuando el usuario pulse el botón de volver (btnVolver) saldrá un ventana con un mensaje de confirmación,
+        //preguntando si está seguro de que quiere cerrar la aplicación.
+        //Si se pulsa que sí, se cerrará la aplicación; ejecutándose la función platform.exit, acabando así la ejecución del programa.
+        //En el caso de que no sea así, saldrá del método del botón (Volver).
+
+        try {
+
+            //El botón está habilitado
+            btnCerrarSesion.setDisable(false);
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
+
+            event.consume();
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que deseas volver?");
+            alert.setHeaderText(null);
+
+            //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+            Optional<ButtonType> action = alert.showAndWait();
+            //Si le da a OK el programa dejará de existir, se cierra por completo
+            if (action.get() == ButtonType.OK) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+                Parent root = loader.load();
+                SignInController signIn = loader.getController();
+                signIn.setStage(thisStage);
+                signIn.initStage(root);
+                thisStage.close();
+
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
+        }
+    }
+
+    
     /**
      *
      * @param user objeto de tipo usuario

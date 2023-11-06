@@ -37,6 +37,8 @@ import model.User;
  */
 public class SignInController {
 
+    private static final Logger LOGGER = Logger.getLogger(SignInController.class.getName());
+
     @FXML
     private Label lblCuenta;
     @FXML
@@ -230,7 +232,7 @@ public class SignInController {
             //librería y limpiará esos campos y se cambiará el color del fondo a rojo.
             //Si no se produce error, se cambiara el fondo a color verde y le pasamos el objeto User a la siguiente ventana (Message) y cerramos la actual.
             User user = new User();
-            user.setEmail(txtEmail.getText());
+            user.setEmail(txtEmail.getText().toLowerCase());
             user.setPasswd(txtPasswd.getText());
 
             user = new ClientSocket().getExecuteSignIn(user);
@@ -239,8 +241,9 @@ public class SignInController {
             Parent root = loader.load();
             MessageController message = loader.getController();
             message.setStage(thisStage);
-            message.initStage(root);
             message.setUser(user);
+            message.initStage(root);
+
             thisStage.close();
 
         } catch (CredentialErrorException e) {
@@ -267,8 +270,7 @@ public class SignInController {
      * @param event evento que sucede al pulsarse el botón.
      */
     @FXML
-    private void handleExitApplication(Event event
-    ) {
+    private void handleExitApplication(Event event) {
         try {
             event.consume();
             //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir

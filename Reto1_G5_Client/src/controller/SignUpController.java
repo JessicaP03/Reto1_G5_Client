@@ -269,32 +269,32 @@ public class SignUpController {
             //Validar que los datos introducidos en el TextField del telefono (txtTelefono) estén en el formato correcto. (Formato numérico, no superior a 9 caracteres).
             //Si no es correcto, saldrá una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
             if (txtTelefono.getText().length() != 9) {
-                throw new Exception("EL TELEFONO TIENE QUE TENER 9 NUMEROS");
+                throw new Exception("EL TELEFONO TIENE QUE TENER 9 NUMEROS MAXIMO");
             }
 
             try {
                 Integer.parseInt(txtTelefono.getText());
             } catch (NumberFormatException e) {
-                throw new Exception("TIENE QUE SER UN NUMERO");
+                throw new Exception("EL TELEFONO TIENE QUE SER NUMERICO");
             }
 
             //Validar que los datos introducidos en el TextField del código postal (txtcCodPostal) estén en el formato correcto. (Formato numérico, no más de 5 caracteres).
             //Si no es correcto, saldrá una ventana informativa con el error. Seguido, saldrá del método del botón (btnRegistro).
             if (txtCodPostal.getText().length() != 5) {
-                throw new Exception("EL CODIGO POSTAL TIENE QUE TENER 5 NUMEROS");
+                throw new Exception("EL CODIGO POSTAL TIENE QUE TENER 5 NUMEROS MAXIMO");
             }
 
             try {
                 Integer.parseInt(txtCodPostal.getText());
             } catch (NumberFormatException e) {
-                throw new Exception("TIENE QUE SER UN NUMERO");
+                throw new Exception("EL CODIGO POSTAL TIENE QUE SER NUMERICO");
             }
 
             //En caso de que todos los datos introducidos sean válidos y cumplan los requisitos mencionados anteriormente, se llama al método getExecuteSignUp de la interfaz (Sign) pasándole un objeto (User) con los valores.
             //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
             User user = new User();
             user.setName(txtNombre.getText());
-            user.setEmail(txtEmail.getText());
+            user.setEmail(txtEmail.getText().toLowerCase());
             user.setAddress(txtDireccion.getText());
             user.setPasswd(txtPasswd.getText());
             user.setPasswd2(txtPasswd2.getText());
@@ -305,7 +305,7 @@ public class SignUpController {
             ClientSocket cs = SocketFactory.getSocket();
             cs.getExecuteSignUp(user);
 
-            //throw new Exception("USUARIO REGISTRADO");
+            throw new Exception("USUARIO REGISTRADO");
             //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
         } catch (WrongPasswordException ex) {
             ex.printStackTrace();

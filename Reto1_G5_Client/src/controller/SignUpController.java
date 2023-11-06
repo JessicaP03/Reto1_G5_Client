@@ -26,6 +26,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.ClientSocket;
+import model.SocketFactory;
 import model.User;
 
 /**
@@ -60,15 +61,13 @@ public class SignUpController {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    //Declaramos la interfaz
-    private ClientSocket interf;
-
     private Stage stage;
     @FXML
     private AnchorPane idPane;
 
     /**
      * Metodo para inicializar la ventana
+     *
      * @param root es el nodo raiz de la ventana
      */
     public void initStage(Parent root) {
@@ -166,7 +165,9 @@ public class SignUpController {
     }
 
     /**
-     *  Metodo para mostrar la contraseña a claro al pulsar la imagen de visualizar.
+     * Metodo para mostrar la contraseña a claro al pulsar la imagen de
+     * visualizar.
+     *
      * @param event evento que sucede,
      */
     protected void mostrarContrasena(ActionEvent event) {
@@ -190,7 +191,9 @@ public class SignUpController {
     }
 
     /**
-     *  Metodo para mostrar la contraseña (campo de repetir la contraseña) a claro al pulsar la imagen de visualizar.
+     * Metodo para mostrar la contraseña (campo de repetir la contraseña) a
+     * claro al pulsar la imagen de visualizar.
+     *
      * @param event evento que sucede,
      */
     protected void mostrarContrasena2(ActionEvent event) {
@@ -214,9 +217,10 @@ public class SignUpController {
     }
 
     /**
-     * Metodo para el botón de registro. 
-     * Utilizado para introducir los datos en la base de datos despues de validar que cumplan los requisitos. 
-     * @param event  evento que sucede al pulsar el botón. 
+     * Metodo para el botón de registro. Utilizado para introducir los datos en
+     * la base de datos despues de validar que cumplan los requisitos.
+     *
+     * @param event evento que sucede al pulsar el botón.
      */
     private void handleRegistroButtonAction(ActionEvent event) {
         try {
@@ -226,21 +230,18 @@ public class SignUpController {
             if (txtNombre.getText().isEmpty() || txtEmail.getText().isEmpty() || txtDireccion.getText().isEmpty() || txtPasswd.getText().isEmpty()
                     || txtPasswd2.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtCodPostal.getText().isEmpty()) {
                 throw new Exception("LOS CAMPOS NO ESTAN INFORMADOS");
-
             }
+
             //Validar que el máximo número de caracteres en el campo de nombre completo, email, contraseña y confirmar contraseña sea de 255.
             //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (btnRegistro).
-
-            if (txtNombre.getText().length() < 255 || txtEmail.getText().length() < 255 || txtPasswd.getText().length() < 255 || txtPasswd2.getText().length() < 255 || txtDireccion.getText().length() < 255) {
+            if (txtNombre.getText().length() > 255 || txtEmail.getText().length() > 255 || txtPasswd.getText().length() > 255 || txtPasswd2.getText().length() > 255 || txtDireccion.getText().length() > 255) {
                 throw new Exception("EL NUMERO DE CARACTERES MAXIMO ES DE 255");
-
             }
+
             //Validad que el email tenga formato específico (xxxxx@gmail.com) y que no supere los 255 caracteres.
             //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (btnRegistro).
-
             String email = this.txtEmail.getText();
             if (!(EMAIL_PATTERN.matcher(email).matches())) {
-
                 throw new Exception("NO HAS INTRODUCIDO UN EMAIL CON EL PATRON CORRECTO");
             }
 
@@ -252,9 +253,9 @@ public class SignUpController {
             if (!PASSWORD_PATTERN.matcher(contrasena).matches()) {
                 throw new Exception("NO HAS INTRODUCIDO UNA CONTRASEÑA CON EL PATRON CORRECTO");
             }
+
             //Validar que el campo de repetir la contraseña tenga un máximo de 255 caracteres y  obligatoriamente lleve mayúsculas, minúsculas y números, y que no tenga espacios en blanco.
             //Si no es correcto, saldrá una ventana informativa con el error.  Seguido, saldrá del método del botón.
-
             String contrasena2 = this.txtPasswd2.getText();
             if (!PASSWORD_PATTERN.matcher(contrasena2).matches()) {
                 throw new Exception("NO HAS INTRODUCIDO UNA CONTRASEÑA CON EL PATRON CORRECTO");
@@ -264,56 +265,57 @@ public class SignUpController {
             //Si no es correcto, saldrá una ventana informativa con el error.  Seguido, saldrá del método del botón.
             //Si los campos de contraseña y repetir la contraseña no coinciden, saldrá una ventana informativa con la excepción WrongPasswordException que se encontrará en las excepciones creadas en la librería y limpiará esos campos.
             if (!txtPasswd.getText().equalsIgnoreCase(txtPasswd2.getText())) {
-                throw new WrongPasswordException();
+                throw new WrongPasswordException("LAS CONTRASEÑAS NO COINCIDEN");
             }
 
             //Validar que los datos introducidos en el TextField del telefono (txtTelefono) estén en el formato correcto. (Formato numérico, no superior a 9 caracteres).
             //Si no es correcto, saldrá una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
             if (txtTelefono.getText().length() != 9) {
-                try {
-                    Integer.parseInt(txtTelefono.getText());
-                } catch (NumberFormatException e) {
-                    throw new Exception("TIENE QUE SER UN NUMERO");
-                }
-                throw new Exception("EL TELEFONO TIENE QUE TENER 9 NUMEROS");
+                throw new Exception("EL TELEFONO TIENE QUE TENER 9 NUMEROS MAXIMO");
+            }
+
+            try {
+                Integer.parseInt(txtTelefono.getText());
+            } catch (NumberFormatException e) {
+                throw new Exception("EL TELEFONO TIENE QUE SER NUMERICO");
             }
 
             //Validar que los datos introducidos en el TextField del código postal (txtcCodPostal) estén en el formato correcto. (Formato numérico, no más de 5 caracteres).
             //Si no es correcto, saldrá una ventana informativa con el error. Seguido, saldrá del método del botón (btnRegistro).
             if (txtCodPostal.getText().length() != 5) {
-                try {
-                    Integer.parseInt(txtCodPostal.getText());
-                } catch (NumberFormatException e) {
-                    throw new Exception("TIENE QUE SER UN NUMERO");
-                }
-                throw new Exception("EL CODIGO POSTAL TIENE QUE TENER 5 NUMEROS");
-
-                //En caso de que todos los datos introducidos sean válidos y cumplan los requisitos mencionados anteriormente, se llama al método getExecuteSignUp de la interfaz (Sign) pasándole un objeto (User) con los valores.
-                //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
-                //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
-            } else {
-
-                User user = new User();
-                user.setName(txtNombre.getText());
-                user.setEmail(txtEmail.getText());
-                user.setAddres(txtDireccion.getText());
-                user.setPasswd(txtPasswd2.getText());
-                user.setPasswd2(txtShowPasswd2.getText());
-                user.setPhone(Integer.parseInt(txtTelefono.getText()));
-                user.setZip(Integer.parseInt(txtCodPostal.getText()));
-                interf.getExecuteSignUp(user);
-
-                throw new Exception("USUARIO REGISTRADO");
-
+                throw new Exception("EL CODIGO POSTAL TIENE QUE TENER 5 NUMEROS MAXIMO");
             }
 
+            try {
+                Integer.parseInt(txtCodPostal.getText());
+            } catch (NumberFormatException e) {
+                throw new Exception("EL CODIGO POSTAL TIENE QUE SER NUMERICO");
+            }
+
+            //En caso de que todos los datos introducidos sean válidos y cumplan los requisitos mencionados anteriormente, se llama al método getExecuteSignUp de la interfaz (Sign) pasándole un objeto (User) con los valores.
+            //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
+            //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
+            User user = new User();
+            user.setName(txtNombre.getText());
+            user.setEmail(txtEmail.getText());
+            user.setAddres(txtDireccion.getText());
+            user.setPasswd(txtPasswd2.getText());
+            user.setPasswd2(txtShowPasswd2.getText());
+            user.setPhone(Integer.parseInt(txtTelefono.getText()));
+            user.setZip(Integer.parseInt(txtCodPostal.getText()));
+
+            ClientSocket cs = SocketFactory.getSocket();
+            cs.getExecuteSignUp(user);
+
+            throw new Exception("USUARIO REGISTRADO");
+
         } catch (WrongPasswordException ex) {
+            ex.printStackTrace();
             new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();
         } catch (Exception e) {
+            e.printStackTrace();
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
-
         }
-
     }
 
     /**
@@ -325,7 +327,7 @@ public class SignUpController {
         //Cuando el usuario pulse el botón de volver (btnVolver) saldrá un ventana con un mensaje de confirmación,
         //preguntando si está seguro de que quiere cerrar la aplicación.
         //Si se pulsa que sí, se cerrará la aplicación; ejecutándose la función platform.exit, acabando así la ejecución del programa.
-        //En el caso de que no sea así, saldrá del método del botón (Volver).  
+        //En el caso de que no sea así, saldrá del método del botón (Volver).
 
         try {
 

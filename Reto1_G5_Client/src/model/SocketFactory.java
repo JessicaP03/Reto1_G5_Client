@@ -16,7 +16,8 @@ public class SocketFactory {
      */
              
             
-    public static Signable getSocket() {
+    public static ClientSocket getSocket() {
+        
         return new ClientSocket();
     }
 

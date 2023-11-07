@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.CredentialErrorException;
+import exceptions.InsertErrorException;
 import exceptions.ServerErrorException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
@@ -43,9 +44,8 @@ public class ClientSocket implements Signable {
      * usuario ya existe
      */
     @Override
-    public User getExecuteSignUp(User user) throws UserNotFoundException, ServerErrorException, UserAlreadyExistsException {
+    public User getExecuteSignUp(User user) throws UserNotFoundException, ServerErrorException, UserAlreadyExistsException, InsertErrorException {
 
-        MessageType messType;
         //Escribir, enviar al servidor
         ObjectOutputStream oos = null;
 
@@ -53,7 +53,6 @@ public class ClientSocket implements Signable {
         ObjectInputStream ois = null;
 
         try {
-
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
             LOGGER.info("El soket se ha creado en " + HOST + ":" + PUERTO);
@@ -87,14 +86,17 @@ public class ClientSocket implements Signable {
                     return user;
                 case USER_ALREADY_EXISTS_RESPONSE:
                     throw new UserAlreadyExistsException("El usuario ya existe.");
-                case ERROR_RESPONSE:
-                    throw new ServerErrorException("Ha occurrido un error en el servidor.");
+
+                case USER_NOT_FOUND_RESPONSE:
+                    throw new UserNotFoundException("No se ha encontrado al usuario.");
+                case SERVER_ERROR:
+                    throw new ServerErrorException("Ha ocurrido un error con el servidor..");
+                case INSERT_ERROR_RESPONSE:
+                    throw new InsertErrorException("Ha ocurrido un error al insertar un dato.");
             }
 
-        } catch (IOException ex) {
-            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            throw new ServerErrorException("Ha ocurrido un error inesperado con el servidor");
         }
         return user;
 
@@ -116,7 +118,6 @@ public class ClientSocket implements Signable {
     @Override
     public User getExecuteSignIn(User user) throws ServerErrorException, CredentialErrorException {
 
-        MessageType messType;
         //Escribir, enviar al servidor
         ObjectOutputStream oos = null;
 
@@ -158,14 +159,14 @@ public class ClientSocket implements Signable {
             switch (message.getMessageType()) {
                 case OK_RESPONSE:
                     return user;
-                case USER_NOT_FOUND_RESPONSE:
+                case CREDENTIAL_ERROR:
                     throw new CredentialErrorException("Error en las credenciales. Comprueba que introduce correctamente los datos.");
                 case ERROR_RESPONSE:
                     throw new ServerErrorException("Ha ocurrido un error en el servidor");
             }
 
-        } catch (Exception ex) {
-            Logger.getLogger(ClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            throw new ServerErrorException("Ha ocurrido un error inesperado con el servidor");
         }
         return user;
     }

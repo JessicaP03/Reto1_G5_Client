@@ -65,18 +65,9 @@ public class SignInController {
     private Stage thisStage;
 
     /**
-     * Guarda el Stage que se ha creado en la clasee main.
-     *
-     * @param stage la ventana que se ha creado en el main.
-     */
-    public void setStage(Stage stage) {
-        this.thisStage = stage;
-    }
-
-    /**
      * Instancia la ventana SignIn y define los parametros necesarios.
      *
-     * @param root es el Parent del FXML SignIn
+     * @param root es el Parent del FXML SignIn.
      */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
@@ -287,5 +278,14 @@ public class SignInController {
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
         }
+    }
+
+    /**
+     * Guarda el Stage que se ha creado en la clasee main.
+     *
+     * @param stage es el contenedor principal de la ventana.
+     */
+    public void setStage(Stage stage) {
+        this.thisStage = stage;
     }
 }

@@ -1,9 +1,11 @@
 package controller;
 
 import exceptions.WrongPasswordException;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -31,7 +33,7 @@ import model.User;
 /**
  * Este es el controlador de la ventana de Sign Up.
  *
- * @author Jessica and Ian
+ * @author Jessica and Ian.
  */
 public class SignUpController {
 
@@ -154,7 +156,7 @@ public class SignUpController {
         //El botón de escape sera el botón de volver(btnVolver).
         scene.setOnKeyPressed((KeyEvent event) -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                handleVolverButtonAction(event);
+                handleExitApplication(event);
 
             }
         });
@@ -167,7 +169,7 @@ public class SignUpController {
      * Metodo para mostrar la contraseña a claro al pulsar la imagen de
      * visualizar.
      *
-     * @param event evento que sucede,
+     * @param event evento que sucede al pulsar el botón.
      */
     protected void mostrarContrasena(ActionEvent event) {
 
@@ -193,7 +195,7 @@ public class SignUpController {
      * Metodo para mostrar la contraseña (campo de repetir la contraseña) a
      * claro al pulsar la imagen de visualizar.
      *
-     * @param event evento que sucede,
+     * @param event evento que sucede al pulsar el botón.
      */
     protected void mostrarContrasena2(ActionEvent event) {
         //Con el segundo botón pasará lo mismo, al seleccionar el botón, se hará visible el TextField (txtShowPasswd2) con el texto escrito en el PasswordField(txtPasswd2)
@@ -292,12 +294,13 @@ public class SignUpController {
 
             //En caso de que todos los datos introducidos sean válidos y cumplan los requisitos mencionados anteriormente, se llama al método getExecuteSignUp de la interfaz (Sign) pasándole un objeto (User) con los valores.
             //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (registro).
+            //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
             User user = new User();
             user.setName(txtNombre.getText());
-            user.setEmail(txtEmail.getText().toLowerCase());
+            user.setEmail(txtEmail.getText());
             user.setAddress(txtDireccion.getText());
-            user.setPasswd(txtPasswd.getText());
-            user.setPasswd2(txtPasswd2.getText());
+            user.setPasswd(txtPasswd2.getText());
+            user.setPasswd2(txtShowPasswd2.getText());
             user.setPhone(Integer.parseInt(txtTelefono.getText()));
             user.setZip(Integer.parseInt(txtCodPostal.getText()));
 
@@ -306,18 +309,16 @@ public class SignUpController {
             cs.getExecuteSignUp(user);
 
             throw new Exception("USUARIO REGISTRADO");
-            //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
+
         } catch (WrongPasswordException ex) {
-            ex.printStackTrace();
             new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
         }
     }
 
     /**
-     * Metodo para cerrar la ventana y volver a la de SIGN IN
+     * Metodo para cerrar la ventana y volver a la de SIGN IN.
      *
      * @param event evento que sucede cuando se pulsa el botón.
      */
@@ -328,18 +329,19 @@ public class SignUpController {
         //En el caso de que no sea así, saldrá del método del botón (Volver).
 
         try {
-
             //El botón está habilitado
             btnVolver.setDisable(false);
-            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
 
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
             event.consume();
+
             //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que deseas volver?");
             alert.setHeaderText(null);
 
             //Con este Optional<ButtonType> creamos botones de Ok y cancelar
             Optional<ButtonType> action = alert.showAndWait();
+
             //Si le da a OK el programa dejará de existir, se cierra por completo
             if (action.get() == ButtonType.OK) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
@@ -348,7 +350,31 @@ public class SignUpController {
                 signIn.setStage(stage);
                 signIn.initStage(root);
                 stage.close();
+            }
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
+        }
+    }
 
+    /**
+     * Cunado se pulse la x salte una ventana de confirmacion para seber si
+     * realmente quiere salir.
+     *
+     * @param event evento que sucede cuando se pulsa el botón.
+     */
+    @FXML
+    private void handleExitApplication(Event event) {
+        try {
+            event.consume();
+            //Con esto vamos a crear una ventana de confirmación al pulsar el botón de salir
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que deseas salir?");
+            alert.setHeaderText(null);
+
+            //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+            Optional<ButtonType> action = alert.showAndWait();
+            //Si le da a OK el programa dejará de existir, se cierra por completo
+            if (action.get() == ButtonType.OK) {
+                Platform.exit();
             }
 
         } catch (Exception e) {
@@ -356,6 +382,11 @@ public class SignUpController {
         }
     }
 
+    /**
+     * Guarda el Stage que se ha creado en la clase main.
+     *
+     * @param stage es el contenedor principal de la ventana.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

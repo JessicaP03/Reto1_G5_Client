@@ -1,16 +1,13 @@
 package model;
 
 import exceptions.CredentialErrorException;
-import exceptions.InsertErrorException;
 import exceptions.ServerErrorException;
 import exceptions.UserAlreadyExistsException;
-import exceptions.UserNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -38,68 +35,14 @@ public class ClientSocket implements Signable {
      * @return user, de usuario
      * @throws ServerErrorException esta excepción se lanza cuando hay un error
      * en el servidor
-     * @throws UserNotFoundException esta excepción se lanza cuando no se
-     * encuentra al usuario
      * @throws UserAlreadyExistsException esta excepción se lanza cuando el
      * usuario ya existe
+     * @throws CredentialErrorException gestiona una excepción por si el email y
+     * la contraseña no coinciden.
      */
     @Override
-    public User getExecuteSignUp(User user) throws UserNotFoundException, ServerErrorException, UserAlreadyExistsException, InsertErrorException {
-
-        //Escribir, enviar al servidor
-        ObjectOutputStream oos = null;
-
-        //Leer desde el servidor
-        ObjectInputStream ois = null;
-
-        try {
-            //Creamos Socket del cliemte
-            Socket skCliente = new Socket(HOST, PUERTO);
-            LOGGER.info("El soket se ha creado en " + HOST + ":" + PUERTO);
-            LOGGER.info("Se ha conectado con el servidor");
-
-            oos = new ObjectOutputStream(skCliente.getOutputStream());
-            message = new Message();
-
-            //Encapsulamos los objetos user y el tipo de mensaje
-            message.setUser(user);
-            message.setMessageType(MessageType.SIGNUP_REQUEST);
-
-            //Escribimos el objeto encapsulado
-            oos.writeObject(message);
-
-            //Recibimos el objeto encalsulado desde el servidor
-            ois = new ObjectInputStream(skCliente.getInputStream());
-            message = (Message) ois.readObject();
-            user = message.getUser();
-
-            //Declaramos una variable int (las enumeraciones nos devuelven en valores de int)
-            int aaa = message.getMessageType().ordinal();
-            oos.close();
-            ois.close();
-            skCliente.close();
-
-            //Dependiendo del mensaje que va a recibir, lanza o escribe un mensaje nuevo
-            LOGGER.info("Respuesta del servidor: " + message.getMessageType());
-            switch (message.getMessageType()) {
-                case OK_RESPONSE:
-                    return user;
-                case USER_ALREADY_EXISTS_RESPONSE:
-                    throw new UserAlreadyExistsException("El usuario ya existe.");
-
-                case USER_NOT_FOUND_RESPONSE:
-                    throw new UserNotFoundException("No se ha encontrado al usuario.");
-                case SERVER_ERROR:
-                    throw new ServerErrorException("Ha ocurrido un error con el servidor..");
-                case INSERT_ERROR_RESPONSE:
-                    throw new InsertErrorException("Ha ocurrido un error al insertar un dato.");
-            }
-
-        } catch (IOException | ClassNotFoundException ex) {
-            throw new ServerErrorException("Ha ocurrido un error inesperado con el servidor");
-        }
-        return user;
-
+    public User getExecuteSignUp(User user) throws ServerErrorException, UserAlreadyExistsException, CredentialErrorException {
+        return connectServer(user, MessageType.SIGNUP_REQUEST);
     }
 
     /**
@@ -113,11 +56,16 @@ public class ClientSocket implements Signable {
      * en el servidor
      * @throws CredentialErrorException esta excepción se lanza cuando las
      * credenciales en el login son incorrectas
+     * @throws UserAlreadyExistsException una excepción que gestiona si un
+     * usuario ya existe en la base de datos.
      *
      */
     @Override
-    public User getExecuteSignIn(User user) throws ServerErrorException, CredentialErrorException {
+    public User getExecuteSignIn(User user) throws ServerErrorException, CredentialErrorException, UserAlreadyExistsException {
+        return connectServer(user, MessageType.SIGNIN_REQUEST);
+    }
 
+    public User connectServer(User user, MessageType messageType) throws ServerErrorException, CredentialErrorException, UserAlreadyExistsException {
         //Escribir, enviar al servidor
         ObjectOutputStream oos = null;
 
@@ -130,7 +78,7 @@ public class ClientSocket implements Signable {
             //Creamos Socket del cliemte
             Socket skCliente = new Socket(HOST, PUERTO);
 
-            LOGGER.info("El soket se ha creado en " + HOST + ":" + PUERTO);
+            LOGGER.info("El socket se ha creado en " + HOST + ":" + PUERTO);
             LOGGER.info("Se ha conectado con el servidor");
 
             oos = new ObjectOutputStream(skCliente.getOutputStream());
@@ -138,7 +86,7 @@ public class ClientSocket implements Signable {
 
             //Encapsulamos los objetos user y el tipo de mensaje
             message.setUser(user);
-            message.setMessageType(MessageType.SIGNIN_REQUEST);
+            message.setMessageType(messageType);
 
             //Escribimos el objeto encapsulado
             oos.writeObject(message);
@@ -149,7 +97,6 @@ public class ClientSocket implements Signable {
             user = message.getUser();
 
             //Declaramos una variable int (las enumeraciones nos devuelven en valores de int)
-            int bbb = message.getMessageType().ordinal();
             oos.close();
             ois.close();
             skCliente.close();
@@ -160,9 +107,14 @@ public class ClientSocket implements Signable {
                 case OK_RESPONSE:
                     return user;
                 case CREDENTIAL_ERROR:
-                    throw new CredentialErrorException("Error en las credenciales. Comprueba que introduce correctamente los datos.");
+                    throw new CredentialErrorException("El email: " + user.getEmail() + " y/o la contraseña: " + user.getPasswd() + " no son correctas.");
+                case USER_ALREADY_EXISTS_RESPONSE:
+                    throw new UserAlreadyExistsException("El usuario con el email: + " + user.getEmail() + " ya existe");
                 case ERROR_RESPONSE:
                     throw new ServerErrorException("Ha ocurrido un error en el servidor");
+                case SERVER_ERROR:
+                    throw new ServerErrorException("Ha ocurrido un error con el servidor..");
+
             }
 
         } catch (IOException | ClassNotFoundException ex) {

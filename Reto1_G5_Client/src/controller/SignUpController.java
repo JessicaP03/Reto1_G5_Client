@@ -297,7 +297,7 @@ public class SignUpController {
             //En caso de que los datos introducidos, coincidan con los de la base de datos, llamaremos a la excepción UserAlreadyExitsException que se encontrará en las excepciones creadas en la librería.
             User user = new User();
             user.setName(txtNombre.getText());
-            user.setEmail(txtEmail.getText());
+            user.setEmail(txtEmail.getText().toLowerCase());
             user.setAddress(txtDireccion.getText());
             user.setPasswd(txtPasswd2.getText());
             user.setPasswd2(txtShowPasswd2.getText());
@@ -308,7 +308,7 @@ public class SignUpController {
             ClientSocket cs = SocketFactory.getSocket();
             cs.getExecuteSignUp(user);
 
-            throw new Exception("USUARIO REGISTRADO");
+            throw new Exception("EL EMAIL: " + user.getEmail() + " SE HA REGISTRADO CORRECTAMENTE");
 
         } catch (WrongPasswordException ex) {
             new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();

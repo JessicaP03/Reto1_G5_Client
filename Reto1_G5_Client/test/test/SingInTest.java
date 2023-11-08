@@ -144,11 +144,11 @@ public class SingInTest extends ApplicationTest {
     @Test
     public void test7_InvalidCredentials() {
         clickOn("#txtEmail");
-        write("email@gmail.com");
+        write("esteCorreoNoExiste@gmail.com");
         clickOn("#txtPasswd");
-        write("Abcd*1234");
+        write("estaContraseñaNoExiste*1234");
         clickOn("#btnIniciarSesion");
-        verifyThat("CREDENTIAL ERROR EXCEPTION", isVisible());
+        verifyThat("El email: estecorreonoexiste@gmail.com y/o la contraseña: estaContraseñaNoExiste*1234 no son correctas.", isVisible());
     }
 
     /**
@@ -158,7 +158,7 @@ public class SingInTest extends ApplicationTest {
     @Test
     public void test8_ValidCredentials() {
         clickOn("#txtEmail");
-        write("email@gmail.com");
+        write("Jason@gmail.com");
         clickOn("#txtPasswd");
         write("Abcd*1234");
         clickOn("#btnIniciarSesion");

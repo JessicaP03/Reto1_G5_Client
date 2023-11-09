@@ -81,22 +81,27 @@ public class ClientSocket implements Signable {
             LOGGER.info("El socket se ha creado en " + HOST + ":" + PUERTO);
             LOGGER.info("Se ha conectado con el servidor");
 
-            oos = new ObjectOutputStream(skCliente.getOutputStream());
-            message = new Message();
-
-            //Encapsulamos los objetos user y el tipo de mensaje
-            message.setUser(user);
-            message.setMessageType(messageType);
-
-            //Escribimos el objeto encapsulado
-            oos.writeObject(message);
-
-            //Recibimos el objeto encapsulado del servidor
             ois = new ObjectInputStream(skCliente.getInputStream());
             message = (Message) ois.readObject();
-            user = message.getUser();
 
-            //Declaramos una variable int (las enumeraciones nos devuelven en valores de int)
+            if (message.getMessageType().equals(MessageType.OK_RESPONSE)) {
+                oos = new ObjectOutputStream(skCliente.getOutputStream());
+                message = new Message();
+
+                //Encapsulamos los objetos user y el tipo de mensaje
+                message.setUser(user);
+                message.setMessageType(messageType);
+
+                //Escribimos el objeto encapsulado
+                oos.writeObject(message);
+
+                //Recibimos el objeto encapsulado del servidor
+                ois = new ObjectInputStream(skCliente.getInputStream());
+                message = (Message) ois.readObject();
+                user = message.getUser();
+            }
+
+            //Cerramos los flujos y el soket
             oos.close();
             ois.close();
             skCliente.close();

@@ -308,6 +308,7 @@ public class SignUpController {
             ClientSocket cs = SocketFactory.getSocket();
             cs.getExecuteSignUp(user);
 
+            this.limpiarCampos();
             throw new Exception("EL EMAIL: " + user.getEmail() + " SE HA REGISTRADO CORRECTAMENTE");
 
         } catch (WrongPasswordException ex) {
@@ -380,6 +381,19 @@ public class SignUpController {
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage() + ButtonType.OK).showAndWait();
         }
+    }
+
+    /**
+     * Este metodo vacia todos los campos de la ventana
+     */
+    public void limpiarCampos() {
+        txtNombre.setText("");
+        txtEmail.setText("");
+        txtDireccion.setText("");
+        txtPasswd.setText("");
+        txtPasswd2.setText("");
+        txtTelefono.setText("");
+        txtCodPostal.setText("");
     }
 
     /**

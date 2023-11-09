@@ -37,6 +37,10 @@ public class SignUpTest extends ApplicationTest {
         }
     }
 
+    /**
+     * Test para inicializar
+     */
+
     @Test
     public void test1_initStage() {
         verifyThat("#txtNombre", isVisible());
@@ -120,7 +124,7 @@ public class SignUpTest extends ApplicationTest {
     }
 
     /**
-     * Metodo para verificar si el email utiliza el patron correcto,
+     * Metodo para verificar si el email utiliza el patron correcto
      */
     @Test
     public void test4_InvalidEmailFormat() {
@@ -164,6 +168,10 @@ public class SignUpTest extends ApplicationTest {
         verifyThat("NO HAS INTRODUCIDO UNA CONTRASEÑA CON EL PATRON CORRECTO", isVisible());
     }
 
+    /**
+     * Metodo de test para comprobar que la contraseña tiene un patrón correcto,
+     * si no lo tiene salta excepción.
+     */
     @Test
     public void test6_InvalidPassw2Format() {
         clickOn("#txtNombre");
@@ -185,6 +193,10 @@ public class SignUpTest extends ApplicationTest {
         verifyThat("NO HAS INTRODUCIDO UNA CONTRASEÑA CON EL PATRON CORRECTO", isVisible());
     }
 
+    /**
+     * Método de test para verificar que las dos contraseñas coinciden, en caso
+     * de no coincidir salta mensaje de error.
+     */
     @Test
     public void test7_InvalidPassw3Format() {
         clickOn("#txtNombre");
@@ -207,6 +219,10 @@ public class SignUpTest extends ApplicationTest {
 
     }
 
+    /**
+     * Metodo de test para verificar que el numero de telefono tiene maximo 9
+     * números, si no, saca mensaje de error.
+     */
     @Test
     public void test8_InvalidPhoneFormat() {
         clickOn("#txtNombre");
@@ -229,6 +245,10 @@ public class SignUpTest extends ApplicationTest {
 
     }
 
+    /**
+     * Método de test para verificar que el telefono es númerico, si no lo es,
+     * salta mensaje de error.
+     */
     @Test
     public void test9_InvalidPhone2Format() {
         clickOn("#txtNombre");
@@ -251,6 +271,10 @@ public class SignUpTest extends ApplicationTest {
 
     }
 
+    /**
+     * Método de test para verificar que el ZIP tiene 5 números maximo, en caso
+     * de tener mas, salta mensaje de error.
+     */
     @Test
     public void tests10_InvalidZIPFormat() {
         clickOn("#txtNombre");
@@ -273,6 +297,10 @@ public class SignUpTest extends ApplicationTest {
 
     }
 
+    /**
+     * Método de test para verificar que el ZIP es nuúmerico, en caso de que no
+     * sea así, sale mensaje de error.
+     */
     @Test
     public void tests11_InvalidZIP2Format() {
         clickOn("#txtNombre");
@@ -295,6 +323,11 @@ public class SignUpTest extends ApplicationTest {
 
     }
 
+    /**
+     * Método para crear aleatoriamente el nombre y el email aleatoriamente.
+     *
+     * @return cadena
+     */
     public static String cadenaAleatoria() {
         // El banco de caracteres
         String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -308,11 +341,23 @@ public class SignUpTest extends ApplicationTest {
         return cadena;
     }
 
+    /**
+     * Método para crear un número aleatrorio que decide la longitud del nombre
+     * y el email.
+     *
+     * @param minimo
+     * @param maximo
+     * @return
+     */
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
 
+    /**
+     * Meétodo de test con validaciones correctas para registrar un usuario.
+     *
+     */
     @Test
     public void tests12_SignUp() {
         String cadena = cadenaAleatoria();
@@ -332,16 +377,17 @@ public class SignUpTest extends ApplicationTest {
         write("48950");
 
         clickOn("#btnRegistro");
-        verifyThat("EL EMAIL: " + cadena + "@gmail.com SE HA REGISTRADO CORRECTAMENTE", isVisible());
-        System.out.println("EL EMAIL: " + cadena + "@gmail.com SE HA REGISTRADO CORRECTAMENTE");
+        verifyThat("EL EMAIL: " + cadena.toLowerCase() + "@gmail.com SE HA REGISTRADO CORRECTAMENTE", isVisible());
     }
 
+    /**
+     * Método de test para cerrar la ventana y visualizar la de iniciar sesión.
+     */
     @Test
     public void tests13_Close() {
         clickOn("#btnVolver");
         verifyThat("¿Seguro que deseas volver?", isVisible());
         clickOn("Aceptar");
         verifyThat("#fondoSignIn", isVisible());
-
     }
 }

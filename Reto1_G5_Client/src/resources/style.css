@@ -1,0 +1,23 @@
+.fondo {
+    -fx-background-color: #B0B0B0
+}
+
+.textField {
+    -fx-background-radius: 12px;
+}
+
+.textField-green { 
+    -fx-background-radius: 12px;
+    -fx-background-color:#1DFD33;
+}
+
+.textField-red {
+    -fx-background-radius: 12px;
+    -fx-background-color: #FB3131;
+}
+
+.button {
+    -fx-background-radius: 30px;
+}
+
+

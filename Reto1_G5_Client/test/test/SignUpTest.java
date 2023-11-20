@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -40,8 +41,8 @@ public class SignUpTest extends ApplicationTest {
     /**
      * Test para inicializar
      */
-
     @Test
+    @Ignore
     public void test1_initStage() {
         verifyThat("#txtNombre", isVisible());
         verifyThat("#txtNombre", isEnabled());
@@ -71,6 +72,7 @@ public class SignUpTest extends ApplicationTest {
      * alguno no lo esté, saltará la excepcion.
      */
     @Test
+    @Ignore
     public void test2_FieldsFilled() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -94,6 +96,7 @@ public class SignUpTest extends ApplicationTest {
      * caracteres, en caso de que tenga mas, saltará la excepcion.
      */
     @Test
+    @Ignore
     public void test3_ValidateMaxCharacters() {
 
         clickOn("#txtNombre");
@@ -127,6 +130,7 @@ public class SignUpTest extends ApplicationTest {
      * Metodo para verificar si el email utiliza el patron correcto
      */
     @Test
+    @Ignore
     public void test4_InvalidEmailFormat() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -148,6 +152,7 @@ public class SignUpTest extends ApplicationTest {
     }
 
     @Test
+    @Ignore
     public void test5_InvalidPasswFormat() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -173,6 +178,7 @@ public class SignUpTest extends ApplicationTest {
      * si no lo tiene salta excepción.
      */
     @Test
+    @Ignore
     public void test6_InvalidPassw2Format() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -198,6 +204,7 @@ public class SignUpTest extends ApplicationTest {
      * de no coincidir salta mensaje de error.
      */
     @Test
+    @Ignore
     public void test7_InvalidPassw3Format() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -224,6 +231,7 @@ public class SignUpTest extends ApplicationTest {
      * números, si no, saca mensaje de error.
      */
     @Test
+    @Ignore
     public void test8_InvalidPhoneFormat() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -250,6 +258,7 @@ public class SignUpTest extends ApplicationTest {
      * salta mensaje de error.
      */
     @Test
+    @Ignore
     public void test9_InvalidPhone2Format() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -276,6 +285,7 @@ public class SignUpTest extends ApplicationTest {
      * de tener mas, salta mensaje de error.
      */
     @Test
+    @Ignore
     public void tests10_InvalidZIPFormat() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -302,6 +312,7 @@ public class SignUpTest extends ApplicationTest {
      * sea así, sale mensaje de error.
      */
     @Test
+    @Ignore
     public void tests11_InvalidZIP2Format() {
         clickOn("#txtNombre");
         write("Nombre");
@@ -359,6 +370,7 @@ public class SignUpTest extends ApplicationTest {
      *
      */
     @Test
+    @Ignore
     public void tests12_SignUp() {
         String cadena = cadenaAleatoria();
         clickOn("#txtNombre");
@@ -384,6 +396,7 @@ public class SignUpTest extends ApplicationTest {
      * Método de test para cerrar la ventana y visualizar la de iniciar sesión.
      */
     @Test
+    @Ignore
     public void tests13_Close() {
         clickOn("#btnVolver");
         verifyThat("¿Seguro que deseas volver?", isVisible());

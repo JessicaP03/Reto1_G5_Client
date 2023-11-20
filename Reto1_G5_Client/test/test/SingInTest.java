@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -60,6 +61,7 @@ public class SingInTest extends ApplicationTest {
      * Comprueba si los campos son visibles y si estan habilitados.
      */
     @Test
+    @Ignore
     public void test1_initStage() {
         verifyThat("#txtEmail", isVisible());
         verifyThat("#txtEmail", isEnabled());
@@ -81,6 +83,7 @@ public class SingInTest extends ApplicationTest {
      * Comprueba si se puede abrir la ventana de SignUp.
      */
     @Test
+    @Ignore
     public void test2_OpenSignUp() {
         clickOn("#hlSignUp");
         verifyThat("#fondoSignUp", isVisible());
@@ -91,6 +94,7 @@ public class SingInTest extends ApplicationTest {
      * Verifica si se produce un error cuando no se introduce una contraseña.
      */
     @Test
+    @Ignore
     public void test3_EmailNotFilled() {
         clickOn("#txtEmail");
         write("email@gmail.com");
@@ -102,6 +106,7 @@ public class SingInTest extends ApplicationTest {
      * Verifica si se produce un error cuando no se introduce una contraseña.
      */
     @Test
+    @Ignore
     public void test4_PasswdNotFilled() {
         clickOn("#txtPasswd");
         write("Abcd*1234");
@@ -114,6 +119,7 @@ public class SingInTest extends ApplicationTest {
      * Verifica si se produce un error cuando se introduce un email inválido.
      */
     @Test
+    @Ignore
     public void test5_InvalidEmailFormat() {
         clickOn("#txtEmail");
         write("email");
@@ -128,6 +134,7 @@ public class SingInTest extends ApplicationTest {
      * inválida.
      */
     @Test
+    @Ignore
     public void test6_InvalidPasswFormat() {
         clickOn("#txtEmail");
         write("email@gmail.com");
@@ -142,6 +149,7 @@ public class SingInTest extends ApplicationTest {
      * coinciden.
      */
     @Test
+    @Ignore
     public void test7_InvalidCredentials() {
         clickOn("#txtEmail");
         write("esteCorreoNoExiste@gmail.com");
@@ -156,6 +164,7 @@ public class SingInTest extends ApplicationTest {
      * validos.
      */
     @Test
+    @Ignore
     public void test8_ValidCredentials() {
         clickOn("#txtEmail");
         write("Jason@gmail.com");

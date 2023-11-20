@@ -228,11 +228,31 @@ public class SignUpController {
 
             //Validar que los campos nombre completo, email, contraseña y confirmar contraseña estén informados.
             //Si no están informados en alguno de los campos saldrá  una ventana informativa con el error correspondiente. Seguido, saldrá del método del botón.
-            if (txtNombre.getText().isEmpty() || txtEmail.getText().isEmpty() || txtDireccion.getText().isEmpty() || txtPasswd.getText().isEmpty()
-                    || txtPasswd2.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtCodPostal.getText().isEmpty()) {
+            if (txtNombre.getText().isEmpty() && txtEmail.getText().isEmpty() && txtDireccion.getText().isEmpty() && txtPasswd.getText().isEmpty()
+                    && txtPasswd2.getText().isEmpty() && txtTelefono.getText().isEmpty() && txtCodPostal.getText().isEmpty()) {
                 throw new Exception("LOS CAMPOS NO ESTAN INFORMADOS");
             }
-
+            if (txtNombre.getText().isEmpty()) {
+                throw new Exception("EL CAMPO NOMBRE NO ESTA INFORMADO");
+            }
+            if (txtEmail.getText().isEmpty()) {
+                throw new Exception("EL CAMPO EMAIL NO ESTA INFORMADO");
+            }
+            if (txtDireccion.getText().isEmpty()) {
+                throw new Exception("EL CAMPO DIRECCION NO ESTA INFORMADO");
+            }
+            if (txtPasswd.getText().isEmpty()) {
+                throw new Exception("EL CAMPO DE LA PRIMERA CONTRASEÑA NO ESTA INFORMADO");
+            }
+            if (txtPasswd2.getText().isEmpty()) {
+                throw new Exception("EL CAMPO DE LA SEGUNDA CONTRASEÑA NO ESTA INFORMADO");
+            }
+            if (txtTelefono.getText().isEmpty()) {
+                throw new Exception("EL CAMPO TELEFONO NO ESTA INFORMADO");
+            }
+            if (txtCodPostal.getText().isEmpty()) {
+                throw new Exception("EL CAMPO CODIGO POSTAL NO ESTA INFORMADO");
+            }
             //Validar que el máximo número de caracteres en el campo de nombre completo, email, contraseña y confirmar contraseña sea de 255.
             //Si no es correcto, saldrá  una ventana informativa con el error. Seguido, saldrá del método del botón (btnRegistro).
             if (txtNombre.getText().length() > 255 || txtEmail.getText().length() > 255 || txtPasswd.getText().length() > 255 || txtPasswd2.getText().length() > 255 || txtDireccion.getText().length() > 255) {
@@ -307,9 +327,15 @@ public class SignUpController {
             LOGGER.info("Creando socket y pedir SIGN UP");
             ClientSocket cs = SocketFactory.getSocket();
             cs.getExecuteSignUp(user);
-
             this.limpiarCampos();
-            throw new Exception("EL EMAIL: " + user.getEmail() + " SE HA REGISTRADO CORRECTAMENTE");
+            new Alert(Alert.AlertType.INFORMATION, "EL EMAIL: " + user.getEmail() + " SE HA REGISTRADO CORRECTAMENTE").showAndWait();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+            Parent root = loader.load();
+            SignInController signIn = loader.getController();
+            signIn.setStage(stage);
+            signIn.initStage(root);
+            stage.close();
 
         } catch (WrongPasswordException ex) {
             new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();

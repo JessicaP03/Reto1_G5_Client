@@ -228,9 +228,32 @@ public class SignUpController {
 
             //Validar que los campos nombre completo, email, contraseña y confirmar contraseña estén informados.
             //Si no están informados en alguno de los campos saldrá  una ventana informativa con el error correspondiente. Seguido, saldrá del método del botón.
-            if (txtNombre.getText().isEmpty() || txtEmail.getText().isEmpty() || txtDireccion.getText().isEmpty() || txtPasswd.getText().isEmpty()
-                    || txtPasswd2.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtCodPostal.getText().isEmpty()) {
+            if (txtNombre.getText().isEmpty() && txtEmail.getText().isEmpty() && txtDireccion.getText().isEmpty() && txtPasswd.getText().isEmpty()
+                    && txtPasswd2.getText().isEmpty() && txtTelefono.getText().isEmpty() || txtCodPostal.getText().isEmpty()) {
                 throw new Exception("LOS CAMPOS NO ESTAN INFORMADOS");
+
+            } 
+            //Validar que campo es el que no esta informado
+            if (txtNombre.getText().isEmpty()) {
+                throw new Exception("El campo 'Nombre' no está informado.");
+            }
+            if (txtEmail.getText().isEmpty()) {
+                throw new Exception("El campo 'Email' no está informado.");
+            }
+            if (txtDireccion.getText().isEmpty()) {
+                throw new Exception("El campo 'Dirección' no está informado.");
+            }
+            if (txtPasswd.getText().isEmpty()) {
+                throw new Exception("El campo 'Contraseña' no está informado.");
+            }
+            if (txtPasswd2.getText().isEmpty()) {
+                throw new Exception("El campo 'Confirmar Contraseña' no está informado.");
+            }
+            if (txtTelefono.getText().isEmpty()) {
+                throw new Exception("El campo 'Teléfono' no está informado.");
+            }
+            if (txtCodPostal.getText().isEmpty()) {
+                throw new Exception("El campo 'Código Postal' no está informado.");
             }
 
             //Validar que el máximo número de caracteres en el campo de nombre completo, email, contraseña y confirmar contraseña sea de 255.
@@ -309,6 +332,12 @@ public class SignUpController {
             cs.getExecuteSignUp(user);
 
             this.limpiarCampos();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+            Parent root = loader.load();
+            SignInController signIn = loader.getController();
+            signIn.setStage(stage);
+            signIn.initStage(root);
+            stage.close();
             throw new Exception("EL EMAIL: " + user.getEmail() + " SE HA REGISTRADO CORRECTAMENTE");
 
         } catch (WrongPasswordException ex) {
@@ -316,6 +345,7 @@ public class SignUpController {
         } catch (Exception e) {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
         }
+
     }
 
     /**

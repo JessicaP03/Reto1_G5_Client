@@ -27,8 +27,8 @@ public class ClientSocket implements Signable {
     private Message message = null;
 
     /**
-     * Conectarse con el 'Server', recibe la información de la ventana de 'SIGN
-     * UP' y la ingresa a la base de datos
+     * Conectarse con el 'SocketServer', recibe la información de la ventana de
+     * 'SIGN UP' y la ingresa a la base de datos
      *
      * @param user de usuario de tipo Usuario
      *
@@ -46,8 +46,8 @@ public class ClientSocket implements Signable {
     }
 
     /**
-     * Se conecta con el 'Server', recibe la información de la ventana de 'SIGN
-     * IN' y comprueba que el usuario esté en la base de datos
+     * Se conecta con el 'SocketServer', recibe la información de la ventana de
+     * 'SIGN IN' y comprueba que el usuario esté en la base de datos
      *
      * @param user de usuario de tipo Usuario
      * @return user, de usuario
@@ -114,7 +114,7 @@ public class ClientSocket implements Signable {
                 case CREDENTIAL_ERROR:
                     throw new CredentialErrorException("El email: " + user.getEmail() + " y/o la contraseña: " + user.getPasswd() + " no son correctas.");
                 case USER_ALREADY_EXISTS_RESPONSE:
-                    throw new UserAlreadyExistsException("El usuario con el email: + " + user.getEmail() + " ya existe");
+                    throw new UserAlreadyExistsException("El usuario con el email: " + user.getEmail() + " ya existe");
                 case ERROR_RESPONSE:
                     throw new ServerErrorException("Ha ocurrido un error en el servidor");
                 case SERVER_ERROR:

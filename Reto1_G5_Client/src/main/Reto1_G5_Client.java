@@ -20,7 +20,6 @@ public class Reto1_G5_Client extends Application {
      * Este metodo inicializa la aplicación abriendo la ventana de SIGN IN
      *
      * @param stage es el contenedor principal de la ventana.
-     * @throws Exception
      */
     @Override
     public void start(Stage stage) {

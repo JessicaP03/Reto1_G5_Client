@@ -176,6 +176,7 @@ public class SignInController {
             //Al dejar de seleccionar el botón, se hará invisible el TextField (txtShowPasswd) y se hará visible el PasswordField(txtPasswd).
             //También se cambiará la imagen (ivTbntPasswd) del ToggleButton(tbtnPasswd)
 
+            txtPasswd.setText(txtShowPasswd.getText());
             txtPasswd.setVisible(true);
             txtShowPasswd.setVisible(false);
             ivTbntPasswd.setImage(new Image(getClass().getResource("/resources/img/ver.png").toExternalForm()));
@@ -191,6 +192,10 @@ public class SignInController {
     @FXML
     protected void handleIniciarSesionButtonAction(ActionEvent event) {
         try {
+            if (tbtnPasswd.isSelected()) {
+                txtPasswd.setText(txtShowPasswd.getText());
+            }
+
             //Validar que los TextField email y contraseña no estén vacíos. Si está vacío alguno de los dos campos, saldrá una ventana informativa
             //con el error. Seguido, saldrá del método del botón.
             if (txtEmail.getText().isEmpty() || txtPasswd.getText().isEmpty()) {
